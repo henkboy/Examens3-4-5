@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public float Health = 100;
 
-    public float MoveSpeed;
-    public float MoveSpeedMinMax;
-    public float SprintSpeedMinMax;
+    public float Speed;
+    public float MaxWalkSpeed;
+    public float MaxSprintSpeed;
     public Rigidbody rb;
     private Vector3 velocityClamped;
     private Vector3 sprintVelocity;
 
     public float JumpRaycastDistance;
-    public bool DoubleJump = true;
+    public bool DoubleJump;
     private bool DoubleJumpUsed = false;
     public float Force;
 
-    public bool HasWeapon = false;
+    public bool HasWeapon;
     public GameObject Weapon;
     public GameObject Bullet;
     public GameObject SpawnPos;
@@ -32,12 +33,12 @@ public class Player : MonoBehaviour
 
     void Movement()
     {
-        float horInput = Input.GetAxis("Horizontal") * MoveSpeed;
-        float verInput = Input.GetAxis("Vertical") * MoveSpeed;
+        float horInput = Input.GetAxis("Horizontal") * Speed;
+        float verInput = Input.GetAxis("Vertical") * Speed;
 
-        Vector3 forceVector = new Vector3(horInput, 0.0f, verInput).normalized * MoveSpeed;
-        velocityClamped = new Vector3(Mathf.Clamp(rb.velocity.x, -MoveSpeedMinMax, MoveSpeedMinMax), rb.velocity.y, Mathf.Clamp(rb.velocity.z, -MoveSpeedMinMax, MoveSpeedMinMax));
-        sprintVelocity = new Vector3(Mathf.Clamp(rb.velocity.x, -SprintSpeedMinMax, SprintSpeedMinMax), rb.velocity.y, Mathf.Clamp(rb.velocity.z, -SprintSpeedMinMax, SprintSpeedMinMax));
+        Vector3 forceVector = new Vector3(horInput, 0.0f, verInput).normalized * Speed;
+        velocityClamped = new Vector3(Mathf.Clamp(rb.velocity.x, -MaxWalkSpeed, MaxWalkSpeed), rb.velocity.y, Mathf.Clamp(rb.velocity.z, -MaxWalkSpeed, MaxWalkSpeed));
+        sprintVelocity = new Vector3(Mathf.Clamp(rb.velocity.x, -MaxSprintSpeed, MaxSprintSpeed), rb.velocity.y, Mathf.Clamp(rb.velocity.z, -MaxSprintSpeed, MaxSprintSpeed));
 
         rb.AddRelativeForce(forceVector);
 
@@ -76,14 +77,18 @@ public class Player : MonoBehaviour
         {
             if (HasWeapon == true)
             {
-                Weapon.SetActive(true);
                 BulletClone = Instantiate(Bullet, SpawnPos.transform.position, SpawnPos.transform.rotation);
                 BulletClone.GetComponent<Rigidbody>().AddForce(SpawnPos.transform.forward * 500);
             }
-            else
-            {
-                Weapon.SetActive(false);
-            }
         }
+    }
+
+    public IEnumerator WeaponTimer(float WeaponTime)
+    {
+        HasWeapon = true;
+        Weapon.SetActive(true);
+        yield return new WaitForSeconds(WeaponTime);
+        Weapon.SetActive(false);
+        HasWeapon = false;
     }
 }
