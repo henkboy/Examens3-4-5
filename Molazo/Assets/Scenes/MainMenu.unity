@@ -1680,6 +1680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MenuPanel: {fileID: 1787416653}
   PlayPanel: {fileID: 694258067}
+  ContinueButton: {fileID: 559150711}
 --- !u!1 &1982425152
 GameObject:
   m_ObjectHideFlags: 0

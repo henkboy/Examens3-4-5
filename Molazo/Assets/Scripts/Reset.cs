@@ -18,9 +18,18 @@ public class Reset : MonoBehaviour {
 
     void OnTriggerEnter(Collider Col)
     {
-        if(0 == 0)
+        CheckProgression();
+    }
+
+    public void CheckProgression()
+    {
+        if (PlayerPrefs.GetInt("Progress") == 0)
         {
             ResetLvl1();
+        }
+        else if (PlayerPrefs.GetInt("Progress") == 1)
+        {
+            ResetLvl2();
         }
     }
 
@@ -31,7 +40,7 @@ public class Reset : MonoBehaviour {
         playerscript.rb.constraints = RigidbodyConstraints.FreezeRotation;
         playerscript.HasWeapon = false;
         playerscript.DoubleJump = false;
-        playerscript.Health = 100;
+        playerscript.CurrentHealth = playerscript.MaxHealth;
         DoubleJumpPowerup.SetActive(true);
         BlockadeLvl1.SetActive(true); 
     }
@@ -43,7 +52,7 @@ public class Reset : MonoBehaviour {
         playerscript.rb.constraints = RigidbodyConstraints.FreezeRotation;
         playerscript.HasWeapon = false;
         playerscript.DoubleJump = false;
-        playerscript.Health = 100;
+        playerscript.CurrentHealth = playerscript.MaxHealth;
         Blockade1Lvl2.SetActive(true);
         Blockade2Lvl2.SetActive(true);
     }

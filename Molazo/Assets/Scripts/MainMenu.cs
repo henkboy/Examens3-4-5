@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
 
     public GameObject MenuPanel;
     public GameObject PlayPanel;
+    public Button ContinueButton;
+
+    void Start()
+    {
+        if(PlayerPrefs.GetInt("Progress") == 0)
+        {
+            ContinueButton.interactable = false;
+        }
+    }
 
     public void Play()
     {
@@ -16,12 +26,13 @@ public class MainMenu : MonoBehaviour {
 
     public void NewGame()
     {
-        SceneManager.LoadScene("MainScene");
+        PlayerPrefs.SetInt("Progress", 0);
+        SceneManager.LoadScene("MainScene");     
     }
 
     public void Continue()
     {
-
+        SceneManager.LoadScene("MainScene");
     }
 
     public void Back()

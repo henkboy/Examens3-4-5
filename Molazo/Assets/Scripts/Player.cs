@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public float Health = 100;
+    // Health
+    public float CurrentHealth;
+    public float MaxHealth;
+    public Slider healthSlider;
+    public GameObject Restart;
 
+    // Movement
     public float Speed;
     public float MaxWalkSpeed;
     public float MaxSprintSpeed;
@@ -13,22 +19,49 @@ public class Player : MonoBehaviour
     private Vector3 velocityClamped;
     private Vector3 sprintVelocity;
 
+    // Jumping
     public float JumpRaycastDistance;
     public bool DoubleJump;
     private bool DoubleJumpUsed = false;
     public float Force;
 
+    // Attacking
     public bool HasWeapon;
     public GameObject Weapon;
     public GameObject Bullet;
     public GameObject SpawnPos;
     private GameObject BulletClone;
 
+    public Text Collectibles;
+    private int m_Collectible;
+    public int Collectible
+    {
+        get { return m_Collectible; }
+        set
+        {
+            if (m_Collectible == value)
+                return;
+
+            m_Collectible = value;
+            Collectibles.text = "Collectibles: " + m_Collectible;
+
+        }
+    }
+
+    void Start()
+    {
+        CurrentHealth = MaxHealth;
+    }
+
     void Update()
     {
         Movement();
         Jump();
         Attack();
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Health(15);
+        }
     }
 
     void Movement()
@@ -91,4 +124,16 @@ public class Player : MonoBehaviour
         Weapon.SetActive(false);
         HasWeapon = false;
     }
+
+    void Health(int amount)
+    {
+        CurrentHealth -= amount;
+        healthSlider.value = CurrentHealth;
+
+        if (CurrentHealth <= 0)
+        {
+            healthSlider.value = MaxHealth;
+            Restart.gameObject.GetComponent<Reset>().CheckProgression();
+        }
+    }                                                                              
 }
