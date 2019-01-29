@@ -6,10 +6,12 @@ public class Saving : MonoBehaviour
 {
     public GameObject Floor;
     public Player Player;
+    AudioSource CoinSound;
 
     void Start()
     {
         Floor.GetComponent<Reset>().CheckProgression();
+        CoinSound = GetComponent<AudioSource>();
     }
 
     void OnCollisionEnter(Collision Col)
@@ -24,5 +26,10 @@ public class Saving : MonoBehaviour
             PlayerPrefs.SetInt("Progress", 2);
             Floor.GetComponent<Reset>().CheckProgression();
         }
+    }
+
+    public void CoinSounds()
+    {
+        CoinSound.Play();
     }
 }

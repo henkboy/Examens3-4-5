@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     public GameObject SpawnPos;
     private GameObject BulletClone;
 
+    // Collectibles
     public Text Collectibles;
     private int m_Collectible;
     public int Collectible
@@ -44,13 +45,22 @@ public class Player : MonoBehaviour
 
             m_Collectible = value;
             Collectibles.text = "Collectibles: " + m_Collectible;
-
         }
     }
+
+    // Timer
+    public Text TimerText;
+    public float TimeLeft;
+    public GameObject Floor;
+
+    private AudioSource JumpSound;
+    private Animator Anim;
 
     void Start()
     {
         CurrentHealth = MaxHealth;
+        Anim = GetComponent<Animator>();
+        JumpSound = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -58,6 +68,7 @@ public class Player : MonoBehaviour
         Movement();
         Jump();
         Attack();
+        Timer();
         if (Input.GetKeyDown(KeyCode.C))
         {
             Health(15);
@@ -83,6 +94,12 @@ public class Player : MonoBehaviour
         {
             rb.velocity = velocityClamped;
         }
+
+        // Animations
+        float MoveVertical = Input.GetAxis("Vertical");
+        Anim.SetFloat("Vertical", MoveVertical);
+        float MoveHorizontal = Input.GetAxis("Horizontal");
+        Anim.SetFloat("Horizontal", MoveHorizontal);
     }
 
     void Jump()
@@ -95,11 +112,13 @@ public class Player : MonoBehaviour
             {
                 rb.AddRelativeForce(Vector3.up * Force);
                 DoubleJumpUsed = false;
+                JumpSound.Play();
             }
             else if (DoubleJump == true && DoubleJumpUsed == false)
             {
                 rb.AddRelativeForce(Vector3.up * Force);
                 DoubleJumpUsed = true;
+                JumpSound.Play();
             }
         }
     }
@@ -135,5 +154,22 @@ public class Player : MonoBehaviour
             healthSlider.value = MaxHealth;
             Restart.gameObject.GetComponent<Reset>().CheckProgression();
         }
-    }                                                                              
+    }
+    
+    void Timer()
+    {
+        TimeLeft -= Time.deltaTime;
+        float Minutes = Mathf.Floor(TimeLeft / 60);
+        float Seconds = Mathf.Floor(TimeLeft) % 60;
+        string seconds = Seconds.ToString();
+        if (Seconds < 10)
+        {
+            seconds = "0" + Seconds.ToString();
+        }
+        TimerText.text = "Time: " + Minutes + ":" + seconds;
+        if(Minutes == 0 && Seconds == 0)
+        {
+            Floor.GetComponent<Reset>().CheckProgression();
+        }
+    }
 }

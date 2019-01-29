@@ -27,12 +27,16 @@ public class MainMenu : MonoBehaviour {
     public void NewGame()
     {
         PlayerPrefs.SetInt("Progress", 0);
-        SceneManager.LoadScene("MainScene");     
+        SceneManager.LoadScene("MainScene");
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void Continue()
     {
         SceneManager.LoadScene("MainScene");
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void Back()

@@ -10,10 +10,12 @@ public class Reset : MonoBehaviour {
     // Level 1
     public GameObject DoubleJumpPowerup;
     public GameObject BlockadeLvl1;
+    public List<GameObject> CoinsLvl1;
 
     // Level 2
     public GameObject Blockade1Lvl2;
     public GameObject Blockade2Lvl2;
+    public List<GameObject> CoinsLvl2;
 
 
     void OnTriggerEnter(Collider Col)
@@ -31,6 +33,10 @@ public class Reset : MonoBehaviour {
         {
             ResetLvl2();
         }
+        else if (PlayerPrefs.GetInt("Progress") == 2)
+        {
+            ResetLvl3();
+        }
     }
 
     void ResetLvl1()
@@ -42,7 +48,14 @@ public class Reset : MonoBehaviour {
         playerscript.DoubleJump = false;
         playerscript.CurrentHealth = playerscript.MaxHealth;
         DoubleJumpPowerup.SetActive(true);
-        BlockadeLvl1.SetActive(true); 
+        BlockadeLvl1.SetActive(true);
+        playerscript.Collectible = 0;
+        playerscript.TimeLeft = 180;
+
+        for (int i = 0; i < CoinsLvl1.Count; i++)
+        {
+            CoinsLvl1[i].SetActive(true);
+        }
     }
 
     void ResetLvl2()
@@ -55,5 +68,17 @@ public class Reset : MonoBehaviour {
         playerscript.CurrentHealth = playerscript.MaxHealth;
         Blockade1Lvl2.SetActive(true);
         Blockade2Lvl2.SetActive(true);
+        playerscript.Collectible = 8;
+        playerscript.TimeLeft = 180;
+
+        for (int i = 0; i < CoinsLvl2.Count; i++)
+        {
+            CoinsLvl2[i].SetActive(true);
+        }
+    }
+
+    void ResetLvl3()
+    {
+
     }
 }
