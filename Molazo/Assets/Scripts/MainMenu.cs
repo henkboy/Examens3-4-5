@@ -28,8 +28,6 @@ public class MainMenu : MonoBehaviour {
     {
         PlayerPrefs.SetInt("Progress", 0);
         SceneManager.LoadScene("MainScene");
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     public void Continue()

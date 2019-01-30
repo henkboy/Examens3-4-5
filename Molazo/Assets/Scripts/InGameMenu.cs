@@ -9,6 +9,9 @@ public class InGameMenu : MonoBehaviour
     public CameraX CameraX;
     public CameraY CameraY;
     private bool IsPaused;
+    public GameObject StoryUI1;
+    public GameObject StoryUI2;
+    public GameObject StoryUI3;
 
     void Update()
     {
@@ -50,6 +53,25 @@ public class InGameMenu : MonoBehaviour
     public void Exit()
     {
         Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Story1()
+    {
+        StoryUI1.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void Story2()
+    {
+        StoryUI2.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void Story3()
+    {
         SceneManager.LoadScene("MainMenu");
     }
 }

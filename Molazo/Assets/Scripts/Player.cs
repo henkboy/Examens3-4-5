@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     public GameObject Bullet;
     public GameObject SpawnPos;
     private GameObject BulletClone;
+    public GameObject EndBoss;
 
     // Collectibles
     public Text Collectibles;
@@ -52,6 +53,7 @@ public class Player : MonoBehaviour
     public Text TimerText;
     public float TimeLeft;
     public GameObject Floor;
+    public bool NeedTimer = true;
 
     private AudioSource JumpSound;
     private Animator Anim;
@@ -69,10 +71,7 @@ public class Player : MonoBehaviour
         Jump();
         Attack();
         Timer();
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            Health(15);
-        }
+
     }
 
     void Movement()
@@ -132,6 +131,19 @@ public class Player : MonoBehaviour
                 BulletClone = Instantiate(Bullet, SpawnPos.transform.position, SpawnPos.transform.rotation);
                 BulletClone.GetComponent<Rigidbody>().AddForce(SpawnPos.transform.forward * 500);
             }
+            else
+            {
+                RaycastHit hit;
+                Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.forward);
+                Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.forward);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider.name == "EndBoss")
+                    {
+                        EndBoss.GetComponent<Enemy>().Health(5);
+                    }
+                }
+            }
         }
     }
 
@@ -144,7 +156,7 @@ public class Player : MonoBehaviour
         HasWeapon = false;
     }
 
-    void Health(int amount)
+    public void Health(int amount)
     {
         CurrentHealth -= amount;
         healthSlider.value = CurrentHealth;
@@ -155,21 +167,24 @@ public class Player : MonoBehaviour
             Restart.gameObject.GetComponent<Reset>().CheckProgression();
         }
     }
-    
+
     void Timer()
     {
-        TimeLeft -= Time.deltaTime;
-        float Minutes = Mathf.Floor(TimeLeft / 60);
-        float Seconds = Mathf.Floor(TimeLeft) % 60;
-        string seconds = Seconds.ToString();
-        if (Seconds < 10)
+        if (NeedTimer == true)
         {
-            seconds = "0" + Seconds.ToString();
-        }
-        TimerText.text = "Time: " + Minutes + ":" + seconds;
-        if(Minutes == 0 && Seconds == 0)
-        {
-            Floor.GetComponent<Reset>().CheckProgression();
+            TimeLeft -= Time.deltaTime;
+            float Minutes = Mathf.Floor(TimeLeft / 60);
+            float Seconds = Mathf.Floor(TimeLeft) % 60;
+            string seconds = Seconds.ToString();
+            if (Seconds < 10)
+            {
+                seconds = "0" + Seconds.ToString();
+            }
+            TimerText.text = "Time: " + Minutes + ":" + seconds;
+            if (Minutes == 0 && Seconds == 0)
+            {
+                Floor.GetComponent<Reset>().CheckProgression();
+            }
         }
     }
 }
