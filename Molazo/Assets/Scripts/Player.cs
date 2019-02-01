@@ -12,12 +12,10 @@ public class Player : MonoBehaviour
     public GameObject Restart;
 
     // Movement
-    public float Speed;
-    public float MaxWalkSpeed;
-    public float MaxSprintSpeed;
+    private float Speed;
+    public float WalkSpeed;
+    public float SprintSpeed;
     public Rigidbody rb;
-    private Vector3 velocityClamped;
-    private Vector3 sprintVelocity;
 
     // Jumping
     public float JumpRaycastDistance;
@@ -45,7 +43,7 @@ public class Player : MonoBehaviour
                 return;
 
             m_Collectible = value;
-            Collectibles.text = "Collectibles: " + m_Collectible;
+            Collectibles.text = "Collectibles: " + m_Collectible + "/8" ;
         }
     }
 
@@ -72,27 +70,29 @@ public class Player : MonoBehaviour
         Attack();
         Timer();
 
+
     }
 
     void Movement()
     {
-        float horInput = Input.GetAxis("Horizontal") * Speed;
-        float verInput = Input.GetAxis("Vertical") * Speed;
-
-        Vector3 forceVector = new Vector3(horInput, 0.0f, verInput).normalized * Speed;
-        velocityClamped = new Vector3(Mathf.Clamp(rb.velocity.x, -MaxWalkSpeed, MaxWalkSpeed), rb.velocity.y, Mathf.Clamp(rb.velocity.z, -MaxWalkSpeed, MaxWalkSpeed));
-        sprintVelocity = new Vector3(Mathf.Clamp(rb.velocity.x, -MaxSprintSpeed, MaxSprintSpeed), rb.velocity.y, Mathf.Clamp(rb.velocity.z, -MaxSprintSpeed, MaxSprintSpeed));
-
-        rb.AddRelativeForce(forceVector);
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Joystick1Button8))
         {
-            rb.velocity = sprintVelocity;
+            Speed = SprintSpeed;
         }
         else
         {
-            rb.velocity = velocityClamped;
+            Speed = WalkSpeed;
         }
+
+        float translationX = Input.GetAxis("Horizontal") * Speed;
+        float translationZ = Input.GetAxis("Vertical") * Speed;
+
+        translationX *= Time.deltaTime;
+        translationZ *= Time.deltaTime;
+
+        transform.Translate(translationX, 0, translationZ);
+
+
 
         // Animations
         float MoveVertical = Input.GetAxis("Vertical");
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Joystick1Button0))
         {
             RaycastHit hit;
 
@@ -124,7 +124,7 @@ public class Player : MonoBehaviour
 
     void Attack()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Joystick1Button1))
         {
             if (HasWeapon == true)
             {

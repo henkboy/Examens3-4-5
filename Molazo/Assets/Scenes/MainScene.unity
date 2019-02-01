@@ -1982,7 +1982,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 381, y: -26.00003}
+  m_AnchoredPosition: {x: 391.4, y: -26.00003}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &233030376
@@ -4311,7 +4311,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &455549068
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7458,7 +7458,7 @@ Prefab:
     - target: {fileID: 54161124565793344, guid: e7965cb5f3b6b49439772edd4131b2b0,
         type: 2}
       propertyPath: m_Constraints
-      value: 112
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 136523100894251620, guid: e7965cb5f3b6b49439772edd4131b2b0,
         type: 2}
@@ -7512,7 +7512,7 @@ Prefab:
     - target: {fileID: 114812305669179200, guid: e7965cb5f3b6b49439772edd4131b2b0,
         type: 2}
       propertyPath: Speed
-      value: 25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114812305669179200, guid: e7965cb5f3b6b49439772edd4131b2b0,
         type: 2}
@@ -7661,6 +7661,26 @@ Prefab:
     - target: {fileID: 4695510713990244, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 2}
       propertyPath: m_LocalPosition.z
       value: -2.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 114105948167289862, guid: e7965cb5f3b6b49439772edd4131b2b0,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114812305669179200, guid: e7965cb5f3b6b49439772edd4131b2b0,
+        type: 2}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 2130708455}
+    - target: {fileID: 114812305669179200, guid: e7965cb5f3b6b49439772edd4131b2b0,
+        type: 2}
+      propertyPath: WalkSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114812305669179200, guid: e7965cb5f3b6b49439772edd4131b2b0,
+        type: 2}
+      propertyPath: SprintSpeed
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7965cb5f3b6b49439772edd4131b2b0, type: 2}
@@ -15171,7 +15191,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Collectibles: 0'
+  m_Text: 'Collectibles: 0/8'
 --- !u!222 &2065730048
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15347,6 +15367,11 @@ GameObject:
 --- !u!1 &2130708454 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1112338128624330, guid: e7965cb5f3b6b49439772edd4131b2b0,
+    type: 2}
+  m_PrefabInternal: {fileID: 843458746}
+--- !u!54 &2130708455 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 54161124565793344, guid: e7965cb5f3b6b49439772edd4131b2b0,
     type: 2}
   m_PrefabInternal: {fileID: 843458746}
 --- !u!114 &2130708456 stripped
